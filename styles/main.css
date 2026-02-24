@@ -1,0 +1,276 @@
+/*--変数定義--*/
+:root {
+    --bg-dark: #121212;
+    /*黒なら#121212*/
+    --primary: #d4af37;
+    --glass-bg: rgba(255,255,255,0.05); /*半透明の白*/
+    --text-main: #ffffff;
+    --text-muted: #a0a0a0;
+    --glass-border: #a0a0a0;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main); /*文字は白色*/
+    font-family: 'Outfit' sans-serif; /*読み込んでフォントを使う。'Outfit'はフォントファミリー。sans-serif(ゴシック体)*/
+    text-align: center;
+    margin: 0;
+    /*背景にうっすらグラデーションを入れてリッチにする*/
+    /*radial-gradient(形状や中心位置,開始色,終了色):円形グラデーション*/
+    background-color: radial-gradient(circle at top right, #2a2a2a 0%, #121212 100%);
+    min-height: 100vh;    
+}
+
+.form-group {
+    display: flex;
+    align-items: center; /*垂直方向の中央揃え*/
+    justify-content: center;
+    margin-bottom: 15px;
+    text-align: left; /*ラベルを左寄せにする*/
+}
+
+input[type = "text"],
+input[type = "range"] {
+    background: rgba(255,255,255,0.05);
+    border-width: 1px solid var(--glass-border);
+    border-radius: 4px;
+    color: var(--text-main);
+    padding: 12px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.95em;
+    flex: 1;
+}
+
+/*テキスト入力フィールドがクリックで選択され、フォーカスされた状態のスタイル*/
+input[type = "text"]:focus {
+    border-color: var(--primary);
+}
+
+/*入力項目のラベルの幅を固定して揃える*/
+.form-group label {
+    width: 100px; /*ラベルの横幅を固定する*/
+    min-width: 100px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-right: 10px;
+}
+
+/*---ヘッダー---*/
+.glass-header {
+    display: flex;
+    align-items: center; /*要素位置*/
+    justify-content: center;
+    padding: 16px 24px;
+    font-family: 'Outfit', sans-serif;
+    background: rgba(18, 18, 18, 0.8); /*少し透ける黒*/
+    backdrop-filter: blur(10px); /*すりガラス効果*/
+    border-bottom: 1px solid var(--glass-border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+    font-weight: 700;
+    color: rgb(235, 235, 235);
+}
+
+.logo i {
+    width: 24px;
+    height: 24px;
+    color: var(--primary);
+}
+
+#main-content {
+    max-width: 600px;
+    margin: 20px auto;  /*上下: 20px 左右:auto*/
+    padding: 0 16px; 
+}
+
+/*---ガラスカード---*/
+.glass-card {
+    animation: fadeInUp 0.5s ease-out;
+    background: var(--glass-bg);
+    border-radius: 8px;
+    border: 1px solid var(--glass-border);
+    padding: 20px;
+    margin-bottom: 20px;
+    
+    
+}
+
+.card-header { /*あくまでカードのヘッダー*/
+    display: flex;
+    justify-content: flex-start; /*flexアイテムの水平方向の並べ方*/
+    align-items: flex-start; /*垂直方向の揃え*/
+    margin-bottom: 12px;
+    gap: 16px; /* 名前とバッジの間に最低限の隙間を確保 */
+}
+
+h3 {
+    margin: 0 0 4px 0;
+    font-size: 1.1rem;
+    color: var(--primary);
+}
+
+.meta-info {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;       /* 入り切らないときは2行目へ */
+    word-break: keep-all;  /* 日本語を単語の途中で切らない！ */
+}
+
+.meta-info i {
+    color: var(--text-muted);
+    width: 14px;
+    height: 14px;
+}
+
+
+
+.notes {
+    margin: 12px 0;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    color: #ddd;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.notes i {
+    margin-top: 2px;
+    flex-shrink: 0;
+    color: var(--primary);
+    width: 16px;
+    height: 16px;
+}
+
+
+.card-footer {
+    margin-top:16px ;
+    padding-top: 12px;
+    border-top: 1px solid var(--glass-border);
+    display: flex;
+    justify-content: space-between;
+}
+
+/*--ボタン類--*/
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/*id(add-btn)で指定して、スタイルを適用*/
+#add-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 30px;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--primary);
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#add-btn active {
+    transform: scale(0.95);
+}
+
+.action-btn {
+    color: #d4af37;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s;
+}
+
+.action-btn i {
+    width: 8px;
+    height: 8px;
+}
+
+.action-btn:hover {
+    color: var(--primary);
+}
+
+.delete-btn:hover {
+    color: #ff4444;
+}
+
+.favorite-btn.active {
+    color: var(--primary);
+}
+
+.favorite-btn.active i {
+    fill: var(--primary);
+}
+
+.favorite-btn span {
+    margin-left: 4px;
+}
+
+#btn-cancel {
+ 
+    background-color: #ff4444;
+    color: white;
+    border-radius: 16px;
+}
+
+#btn-save {
+    background: var(--primary);
+    color: white;
+    border-radius: 16px;
+}
+
+/* 画面を隠すためのクラス */
+.hidden {
+    display: none !important;
+}
+
+.chart-container { 
+    max-width: 100%;
+    height: 250px;
+    margin: 20px 0;
+    position: relative;
+    margin: 20px 0;
+}
+
+.chart-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+@keyframes fadeInUp { 
+    from {
+        opacity: 0; /*不透明度。最初は透明*/
+        transform: translateY(20px); /*初期位置。本来の位置より下に20px*/
+    }
+    to {
+        opacity: 1; /*最後は不透明*/
+        transform: translateY(0); /*本来の位置に戻る*/
+    }
+}

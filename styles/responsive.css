@@ -1,0 +1,153 @@
+/*メディアクエリ(スマートフォン用)*/
+
+@media screen and (max-width: 767px){
+    .glass-header {
+        padding: 12px 16px;
+    }
+
+    .logo {
+        font-size: 20px;
+        gap: 10px;
+    }
+
+    .main-content {
+        padding: 0 12px;
+    }
+
+    .glass-card {
+        padding: 16px;
+    }
+
+    .form-group {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .form-group label {
+        width: auto;
+        min-width: auto;
+        font-size: 0.85rem;
+    }
+
+    
+    input[type = "text"] {
+        font-size: 16px; /*iOSの自動ズームを防止*/
+    }
+
+    /* スライダーの数値を中央に配置 */
+    .form-group span {
+        display: block;
+        width: 100%;
+        text-align: center;
+        font-weight: 600;
+        color: rgb(151, 145, 145);
+        font-size: 1.1rem;
+    }
+
+    /* お気に入りボタンのテキストを非表示（アイコンのみ） */
+    .favorite-btn span {
+        display: none;
+    }
+
+    /*タイトルのフォントサイズ調整*/
+    h2 {
+        font-size: 1.3rem;
+    }
+
+    h3 {
+        font-size: 1rem;
+    }
+
+    .meta-info {
+        font-size: 0.8rem;
+    }
+
+    .chart-container {
+        height: 220px;
+    }
+
+    .action-btn {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+
+    #add-btn {
+        width: 56px;
+        height: 56px;
+        bottom: 16px;
+        right: 16px;
+        font-size: 28px;
+    }
+
+    /*キャンセル、保存ボタンを縦積み*/
+    .button-group {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .button-group .action-btn{
+        width: 100%;
+        justify-content: center;
+        padding: 12px;
+    }
+
+}
+
+/*メディアクエリ(タブレット用)*/
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+    .main-content {
+        max-width: 700px;
+        padding: 0 24px;
+    }
+
+    .glass-card {
+        padding: 24px;
+    }
+
+    /* タブレットではフォームを横並びに戻す */
+    .form-group {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .form-group label {
+        width: 120px;
+        min-width: 120px;
+    }
+
+    /* スライダーの数値は横並びに戻す */
+    .form-group span {
+        display: inline;
+        width: auto;
+        text-align: left;
+        margin-top: 0;
+        margin-left: 8px;
+    }
+
+    /* 追加ボタンのサイズ調整 */
+    #add-btn {
+        width: 68px;
+        height: 68px;
+        bottom: 24px;
+        right: 24px;
+    }
+
+    /* チャートの高さ調整 */
+    .chart-container {
+        height: 280px;
+    }
+
+    /* ボタングループは横並びに戻す */
+    .button-group {
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .button-group .action-btn {
+        width: auto;
+        flex: 1;
+        padding: 12px 24px;
+    }
+}

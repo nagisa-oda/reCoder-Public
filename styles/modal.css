@@ -1,0 +1,33 @@
+/*カスタムモーダルのスタイル*/
+
+.modal-overlay {
+    background: rgba(0, 0, 0, 0.7); /*背景を薄暗くする*/
+    width: 100%;
+    height: 100%;
+    position: fixed; /*画面に固定するために指定*/
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px); /*背景ぼかし*/
+    z-index: 1000; /*モーダルが表示されたときに他の要素を覆うようにする*/
+}
+
+.modal-content {
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    padding: 24px;
+}
+
+
+.modal-execute-btn {
+    background-color: #ef4444;
+    color: white;
+    border-radius: 4px;
+}
+
+.modal-execute-btn:hover {
+    background-color: #dc2626;
+}

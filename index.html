@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+
+        <!--スマホの横幅表示に合わせるための設定-->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!--preconnectでドメインに事前接続。ページの読み込み速度向上に寄与-->
+        <!--Content Delivery Networkでファイルを使える(フォント)-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap">
+
+        <!---icons-->
+        <!--コーヒーカップやごみ箱などのアイコンを表示するためのライブラリ-->
+        <!--アイコンを取り出すには、<i data-lucide="coffee"></i>のように書く-->
+        <script src="https://unpkg.com/lucide@latest"></script>
+
+        <!--レーダーチャートを作る用。ライブラリ名は"chart.js"-->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        
+        <link rel="stylesheet" href="styles/main.css">
+        <link rel="stylesheet" href ="styles/modal.css">
+        <link rel="stylesheet" href = "styles/responsive.css">
+    </head>
+    <body>
+    <div id="app">
+        <header class="glass-header">
+            <div class="logo">
+                <span>reCoder</span>
+            </div>
+        </header>
+
+        <main class="main-content">
+            
+            <section id="home-page">
+                <div id="card-area"></div>
+                
+                <button id="add-btn" style="cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+                    +
+                </button>
+            </section>
+            
+
+            <!--新しいコーヒーログの追加画面-->
+            <section id="add-page" class="hidden">
+                <div class="glass-card input-form">
+                    <h2>New Coffee Entry</h2>
+                        
+                    <div class="form-group">
+                        <label>商品名</label>
+                        <input type="text" id="product-name" placeholder="(必須)">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>生産国名</label>
+                        <input type="text" id="country" placeholder="生産国名(必須)">
+                    </div>
+
+                    <div class="form-group">
+                        <label>プロセス</label>
+                        <input type="text" id="process" placeholder="プロセス(必須)">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>品種</label>
+                        <input type="text" id="variety" placeholder="品種(必須)">
+                    </div>
+                   
+                    <div class="form-group">
+                        <label>風味</label>
+                        <input type="text" id="aroma" placeholder="風味(必須)">
+                    </div>
+                   
+                    <div class = "form-group">
+                        <label>農園</label>
+                        <input type="text" id = "farm" placeholder="農園">
+                    </div>
+                    
+                    <div class = "form-group">
+                        <label>ドリッパー</label>
+                        <input type = "text" id = "dripper" placeholder="ドリッパー">
+                    </div>
+
+                    <div class = "form-group">
+                        <label>購入店</label>
+                        <input type = "text" id = "shop" placeholder="購入店">
+                    </div>
+
+                    <div class = "form-group">
+                        <label>メモ</label>
+                        <input type = "text" id = "memo" placeholder="その他メモ">
+                    </div>
+
+                    <div class="form-group">
+                        <label>酸味</label>
+                        <input type="range" id = "acidity" min="1" value = "3" max="5" >
+                        <span id = "acidity-value">3</span>
+                    </div>
+
+                    <div class = "form-group">
+                        <label>苦味</label>
+                        <input type="range" id = "bitterness" min="1" value="3" max="5"> 
+                        <span id = "bitterness-value">3</span>
+                    </div>
+
+                    <div class = "form-group">
+                        <label>コク</label>
+                        <input type="range" id = "richness" min="1" value="3" max="5">
+                        <span id = "richness-value">3</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label>甘味</label>
+                        <input type="range" id="sweetness" min="1" value="3" max="5">
+                        <span id = "sweetness-value">3</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label>香り</label>
+                        <input type="range" id="aromaStrength" min="1" value="3" max="5">
+                        <span id = "aromaStrength-value">3</span>
+                    </div>
+                    
+                    <div class="button-group" style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
+                        <button id="btn-cancel" class="action-btn">キャンセル</button>
+                        <button id="btn-save" class="action-btn" style="background: var(--primary); color: white;">保存</button>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!---カスタムモーダル-->
+    <div id = "custom-modal" class = "hidden modal-overlay"> <!---backgroundクラスは、モーダルが表示されたときに背景を暗くするためのクラス-->
+        <div class = "glass-card modal-content">
+            <!--タイトル部分。動的に変更したい-->
+            <h3 id = "modal-title" style = "color: white;">確認</h3>
+        
+            <!---確認メッセージ。動的に変更したい-->
+            <p id = "modal-message">本当に実行しますか？</p>
+
+            <div class = "button-group">
+                <button id = "modal-cancel" class = "action-btn">キャンセル</button>
+                <button id = "modal-execute" class = "action-btn modal-execute-btn">実行</button>
+            </div>
+        
+        </div>
+    </div>
+
+    <script src="js/modal.js"></script>
+    <script src="js/app.js"></script>
+    
+    <script>
+        lucide.createIcons();
+    </script>
+
+    
+</body>
+</html>
