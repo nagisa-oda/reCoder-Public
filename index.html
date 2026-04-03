@@ -28,11 +28,29 @@
     <div id="app">
         <header class="glass-header">
             <div class="logo">
-                <span>reCoder</span>
+                <span>Connector</span>
+            </div>
+
+            <div id="user-info" class="user-info hidden">
+                <img id="user-photo" class="user-photo" src="" alt="User">
+                <span id="user-name"></span>
+                <button id="logout-btn" class="action-btn">
+                    <i data-lucide="log-out"></i>
+                </button>
+
             </div>
         </header>
 
         <main class="main-content">
+            <section id="login-page">
+                <div class="class-card login-card">
+                    <h2>Connector</h2>
+                    <p>あなたのコーヒー体験を共有しよう</p>
+                    <button id="google-login-btn" class="login-btn">
+                        Googleでログイン
+                    </button>
+                </div>
+            </section>
             
             <section id="home-page">
                 <div id="card-area"></div>
