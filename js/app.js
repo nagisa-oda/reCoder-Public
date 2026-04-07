@@ -1,3 +1,21 @@
+// インポートと要素の取得
+import {db} from './firebase-config.js';
+import {loginWithGoogle, logout, getCurrentUser, onAuthChange} from './auth.js';
+import {
+    collection,
+    addDoc,
+    updateDoc,
+    deleteDoc,
+    doc,
+    onSnapshot,
+    query,
+    orderBy,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+
+
+
+
 const cardArea = document.getElementById('card-area');
 const saveBtn = document.getElementById('btn-save');
 const addBtn = document.getElementById('add-btn');
@@ -11,6 +29,9 @@ const slidersIds = ['acidity', 'bitterness', 'richness', 'sweetness', 'aromaStre
 let coffeeLogs = [];
 // 編集中のデータを管理するための変数
 let editingId = null;
+
+let editingDocId = null;
+let unsubscribe = null;
 
 // UI操作関数
 // ページ遷移処理
