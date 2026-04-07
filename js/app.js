@@ -1,6 +1,6 @@
 // インポートと要素の取得
 import {db} from './firebase-config.js';
-import {loginWithGoogle, logout, getCurrentUser, onAuthChange} from './auth.js';
+import {loginWithGoogle, logout, getCurrentUser, onAuthChange, getCurrentUser} from './auth.js';
 import {
     collection,
     addDoc,
@@ -46,11 +46,12 @@ function switchPage(pageName) {
 }
 
 function logDate(timestamp) {
-   const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
-   const year = date.getFullyear();
-   const month = String(date.getMonth() + 1).padStart(2, '0');
-   const day = String(date.getDate()).padStart(2, '0');
-   return `${year}/${month}/${day}`;
+    if(!timestamp) return '日付なし';
+    const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+    const year = date.getFullyear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}/${month}/${day}`;
 }
 
 // フォームのリセット処理
@@ -72,10 +73,11 @@ function resetForm() {
     });
 }
 
-// カードを描画する処理
-
+// カードを描画する処理(投稿者情報を追加)
 function renderCard(log) {
     // 既存データとの互換性のため、beanNameがあればproductNameとして扱う
+    const getCurrentUser = getCurrentUser();
+    const isOwner = getCurrentUser && getCurrentUser.uid === log.userId;
     const displayName = log.productName || log.beanName || '名称未設定';
 
     const cardHtml = /*html*/`
@@ -132,12 +134,14 @@ function renderCard(log) {
                     <span>${log.isFavorite ? 'お気に入り' : 'お気に入りに追加'}</span>
                 </button>
 
-                <button class = "action-btn edit-btn" data-id = "${log.id}"> 
-                    <i data-lucide = "edit"></i>
-                </button>
-                <button class="action-btn delete-btn" data-id = "${log.id}">
-                    <i data-lucide="trash-2"></i>
-                </button>
+                ${isOwner ? `
+                    <button class = "action-btn edit-btn" data-id = "${docId}"> 
+                        <i data-lucide = "edit"></i>
+                    </button>
+                    <button class="action-btn delete-btn" data-id = "${docId}">
+                        <i data-lucide="trash-2"></i>
+                    </button>
+                ` : ''}
             </div>
         </div>
     `;
