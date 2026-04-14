@@ -359,23 +359,17 @@ cardArea.addEventListener('click', function(e) {
             lucide.createIcons();
         }
     }
-
     // 削除ボタンの処理
     else if (deleteBtn) {
-        const deleteId = Number(deleteBtn.dataset.id);
-        
-        openModal(
-            "削除の確認",
-            "本当に削除しますか？",
-            function() {
-                coffeeLogs = coffeeLogs.filter(log => log.id !== deleteId);
-                syncStorage();
-                
-                const cardToDelete = document.querySelector(`[data-id="${deleteId}"]`).closest('.glass-card');
-                cardToDelete.remove();
+        const docId = deleteBtn.dataset.id;
+        openModal("確認","本当に削除しますか？", async function() {
+            try {
+                await deleteDoc(doc(db, 'coffeeLogs', docId));
+            } catch (error) {
+                console.error('削除エラー:', error);
             }
-        );
-    }
+        }
+    });
 
     // 編集ボタンの処理
     else if (editBtn) {
