@@ -173,8 +173,7 @@ function initChart(id, flavor) {
                     borderColor: 'rgb(168, 216, 181)',
                     borderWidth: 2,
                     pointBackgroundColor: 'white'
-                }
-            ],
+                }],
         },
         options: {
             responsive: true,
@@ -220,6 +219,16 @@ function initChart(id, flavor) {
 // LocalStorageへの保存処理
 function syncStorage() {
     localStorage.setItem('coffeeLogs', JSON.stringify(coffeeLogs));
+}
+
+function startRealtimeListener() {
+    const q = query(collection(db, 'coffeeLogs'), orderBy('createdAt', 'desc'));
+    unsubscribe = onSnapshot(q, (snapshot) => {
+        cardArea.innerHTML = '';
+        snapshot.forEach((docSnap) => {
+            renderCard(docSnap.id, docSnap.data());
+        });
+    });
 }
 
 
