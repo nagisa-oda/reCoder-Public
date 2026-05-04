@@ -214,8 +214,7 @@ function initChart(id, flavor) {
 }
 
 
-// データ処理関数
-
+// Firestore連携関数
 function startRealtimeListener() {
     const q = query(collection(db, 'coffeeLogs'), orderBy('createdAt', 'desc'));
     // db: 自分のFirebaseデータベースの中にあるcoffeeLogsというコレクションへの参照を取得
@@ -239,6 +238,40 @@ function stopRealtimeListener() {
     }
 }
 
+// 現在の認証状態による画面切り替えを行う関数
+onAuthChange((user) => {  // onAuthChange: インポートしたモジュール。ログイン/ログアウトが起きるたびにコールバックを呼ぶ関数
+
+    /* ページを開いたとき、以前ログインしていればブラウザがセッション情報を覚えているため、userにユーザー情報が入る。
+    　 初回ログイン時にはuserにはnullが入る。
+       ログインしたとき、userにはGoogleアカウントの情報が入る。
+       ログアウト時にはuserはnullになる。*/
+    
+    /* Googleログイン後、userには以下のようなプロパティが入る。
+     user = {
+    uid: "abc123xyz...",          // Firebase が割り当てた一意のユーザーID
+    displayName: "田中太郎",       // Googleアカウントの表示名
+    email: "tanaka@gmail.com",    // メールアドレス
+    photoURL: "https://lh3...",   // Googleアカウントのプロフィール画像URL
+    // ... その他多数のプロパティ
+    }*/
+
+    if(user) {
+        loginPage.classList.add('hidden');
+        homePage.classList.remove('hidden');
+        userInfo.classList.remove('hidden');
+        userPhoto.src = user.photoURL || '';
+        userName.textContent = user.displayName || 'ユーザー';
+        startRealtimeListener(); // Firestoreのリアルタイム監視を開始
+    } else {
+        loginPage.classList.remove('hidden');
+        homePage.classList.add('hidden');
+        addPage.classList.add('hidden');
+        userInfo.classList.add('hidden');
+        cardArea.innerHTML = '';
+        stopRealtimeListener();  // Firestoreのリアルタイム監視を停止
+    }
+    lucide.createIcons();  // アイコン表示のため
+})
 
 // イベントリスナー群
 
