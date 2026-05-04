@@ -216,19 +216,27 @@ function initChart(id, flavor) {
 
 // データ処理関数
 
-// LocalStorageへの保存処理
-function syncStorage() {
-    localStorage.setItem('coffeeLogs', JSON.stringify(coffeeLogs));
-}
-
 function startRealtimeListener() {
     const q = query(collection(db, 'coffeeLogs'), orderBy('createdAt', 'desc'));
-    unsubscribe = onSnapshot(q, (snapshot) => {
-        cardArea.innerHTML = '';
-        snapshot.forEach((docSnap) => {
-            renderCard(docSnap.id, docSnap.data());
+    // db: 自分のFirebaseデータベースの中にあるcoffeeLogsというコレクションへの参照を取得
+    // OrderBy:('createdAt', 'desc'): createdAtフィールドで降順(desc)に並べる
+    // query(コレクション参照, 並び順): 上記二つを組み合わせてクエリ(問い合わせ)を作る
+    // 結果、CoffeeLogsコレクションのデータを、作成日が新しい順に取得するというクエリを作成する。 
+    unsubscribe = onSnapshot(q, (snapshot) => { // onSnapshot(クエリ, コールバック関数)は常にFirestoreを監視し続け、データが変わるたびにコールバック関数が呼ばれる
+        // unsubscribeに代入している理由：onSnapshotは監視を止める関数を返すため、ログアウト時にこれを呼ぶことで監視を停止できる。
+        cardArea.innerHTML = ''; // コールバックが呼ばれるたびに既存のカードを全て消す。全件再描画することでシンプルな設計にしている
+        snapshot.forEach((docSnap) => { // docSnap: 1件のドキュメント(1つのコーヒーログ)
+            renderCard(docSnap.id, docSnap.data()); // docSnap.date(): ドキュメントの中身をJavaScriptオブジェクトとして取得({productName: "...", country: "...", ...})
         });
     });
+}
+
+// Firestore監視停止用の関数(ログアウト時に呼ぶ)
+function stopRealtimeListener() {
+    if (unsubscribe) { // unsubscribeがTrueになることで(onSnapshot()が返した「監視停止関数」を呼ぶことで)、Firestoreの監視を止める
+        unsubscribe();
+        unsubscribe = null; // 二重にunsubscribe()を呼ばないための安全策
+    }
 }
 
 
